@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+    haproxy:
+        image: haproxy
+        env_file:
+            - ./balanceador/haproxy.env
+        volumes:
+            - ./balanceador/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+            - ./balanceador/abuse.lst:/usr/local/etc/haproxy/abuse.lst:ro
+        ports:
+            - "80:80"
+            - "81:81"
+    
+    web-server1:
+      build: ./webserver/webserver1
+      ports:
+        - 8080:80
+        
+    web-server2:
+      build: ./webserver/webserver2
+      ports:
+        - 8081:80
+
+
